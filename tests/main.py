@@ -12,11 +12,11 @@ EXAMPLE_IN = """Date,Counter Party,Reference,Type,Amount (GBP),Balance (GBP),Spe
 
 EXAMPLE_OUT = """!Type:Bank
 D01/04/2020
-Starling Bank
+PStarling Bank
 T0.02
 ^
 D10/04/2020
-J Van Den Bosch
+PJ Van Den Bosch
 T100.00
 ^
 D12/04/2020
@@ -38,7 +38,7 @@ class MainTests(TestCase):
         with patch("builtins.open", mock_open(read_data=EXAMPLE_IN)) as mock_file:
             import starling2qif.main
             starling2qif.main.convert('statement.csv')
-            mock_file().write.assert_called_once_with(EXAMPLE_OUT)
+            mock_file().write.assert_called_once_with(EXAMPLE_OUT.encode('ascii'))
 
     def test_convert_io(self):
         """Test the filepaths that convert() uses.
